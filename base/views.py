@@ -56,11 +56,14 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
     
 class ProductSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField()  # Assurez-vous d'importer ImageField depuis serializers
+    
     class Meta:
         model = Product
         fields = '__all__'
 
 class ProductView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
     def get(self, request):
         my_model =Product.objects.all()
         serializer = ProductSerializer(my_model, many=True)
